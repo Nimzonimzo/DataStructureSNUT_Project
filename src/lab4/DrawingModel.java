@@ -21,6 +21,7 @@ public class DrawingModel {
         return color;
     }
 
+
     public int getShapeType() {
         shapeType = shapePanel.getSelectedShape();
         return shapeType;
@@ -39,6 +40,7 @@ public class DrawingModel {
     }
 
     public Shape getShapeSelected(double x, double y) {
+
         for (int i = shapes.size() - 1; i >= 0; i--) {
             Shape shape = shapes.get(i);
 
@@ -51,7 +53,8 @@ public class DrawingModel {
     }
 
     private boolean hitBox(Shape shape, double x, double y) {
-        double hitboxSize = 20; // Half of the hitbox size
+
+        double hitboxSize = 40; // Half of the hitbox size
 
         // Calculate the bounds of the hitbox
         double minX = shape.getX() - hitboxSize;
@@ -60,6 +63,10 @@ public class DrawingModel {
         double maxY = shape.getY() + hitboxSize;
 
         // Check if the point (x, y) is within the hitbox bounds
-        return x >= minX && x <= maxX && y >= minY && y <= maxY;
+        if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+            return true;
+        }
+
+        return false;
     }
 }

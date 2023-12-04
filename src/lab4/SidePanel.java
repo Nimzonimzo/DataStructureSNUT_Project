@@ -15,7 +15,7 @@ public class SidePanel extends VBox {
         setPadding(new Insets(10));
         setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        colorButtons = new ArrayList<>();
+        colorButtons = new ArrayList<ColorButton>();
         colorButtons.add(new ColorButton(Color.BROWN, true, this));
         colorButtons.add(new ColorButton(Color.RED, false, this));
         colorButtons.add(new ColorButton(Color.GREEN, false, this));
@@ -45,7 +45,11 @@ public class SidePanel extends VBox {
 
     public void updateColorButtons(ColorButton selectedButton) {
         for (ColorButton button : colorButtons) {
-            button.setSelected(button == selectedButton);
+            if (button == selectedButton) {
+                button.setSelected(true);
+            } else {
+                button.setSelected(false);
+            }
         }
     }
 }

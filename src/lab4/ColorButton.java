@@ -1,7 +1,6 @@
 package lab4;
 
 import javafx.geometry.Insets;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -14,14 +13,14 @@ public class ColorButton extends StackPane {
 	private boolean selected;
 	private Color color;
 
-	public ColorButton(Color color, boolean selected, SidePanel sidePanel) {
+	public ColorButton(Color color, boolean selec, SidePanel sidePanel) {
 		this.color = color;
-		this.selected = selected;
+		this.selected = selec;
 
 		setPadding(new Insets(4));
 
 		// STARTING COLOR GETS MARKED
-		if (this.selected) {
+		if (this.selected == true) {
 			setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
 		} else {
 			setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY)));
@@ -51,6 +50,7 @@ public class ColorButton extends StackPane {
 	}
 
 	private void updateBackground() {
+
 		if (selected) {
 			setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
 		} else {

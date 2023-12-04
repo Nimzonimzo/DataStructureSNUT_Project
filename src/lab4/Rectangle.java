@@ -5,24 +5,30 @@ import javafx.scene.paint.Color;
 
 public class Rectangle extends Shape {
 
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 40;
+    private int width = 80;
+    private int height = 40;
 
     public Rectangle(double x, double y, Color color, int shapeType) {
-        super(x, y, color, shapeType);
+        super(x, y, color, 1);
     }
 
     @Override
     public void drawYourself(GraphicsContext gc) {
         gc.setFill(getColor());
-        gc.fillRect(getX() - WIDTH / 2, getY() - HEIGHT / 2, WIDTH, HEIGHT);
+        gc.fillRect(getX() - width / 2, getY() - height / 2, width, height);
+
+        if (getColor() != getOutlineColor()) {
+            gc.setStroke(getOutlineColor());
+            gc.setLineWidth(3);
+            gc.strokeRect(getX()-width / 2, getY()-height / 2, width, height);
+        }
     }
 
     @Override
     public void setOutline(GraphicsContext gc, Color color) {
         gc.setStroke(color);
         gc.setLineWidth(3);
-        gc.strokeRect(getX() - WIDTH / 2, getY() - HEIGHT / 2, WIDTH, HEIGHT);
+        gc.strokeRect(getX()-width / 2, getY()-height / 2, width, height);
     }
 
     @Override

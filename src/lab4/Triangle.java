@@ -5,24 +5,27 @@ import javafx.scene.paint.Color;
 
 public class Triangle extends Shape {
 
-    private static final double SIZE = 40.0;
+    private double size = 40.0;
     private double[] xPoints;
     private double[] yPoints;
 
     public Triangle(double x, double y, Color color, int shapeType) {
         super(x, y, color, 2);
-        initializePoints();
-    }
-
-    private void initializePoints() {
-        xPoints = new double[]{getX() - SIZE, getX(), getX() + SIZE};
-        yPoints = new double[]{getY() + SIZE, getY() - SIZE, getY() + SIZE};
     }
 
     @Override
     public void drawYourself(GraphicsContext gc) {
         gc.setFill(getColor());
+
+        xPoints = new double[]{getX() - size, getX(), getX() + size};
+        yPoints = new double[]{getY() + size, getY() - size, getY() + size};
         gc.fillPolygon(xPoints, yPoints, 3);
+
+        if (getColor() != getOutlineColor()) {
+            gc.setStroke(getOutlineColor());
+            gc.setLineWidth(3);
+            gc.strokePolygon(xPoints, yPoints, 3);
+        }
     }
 
     @Override
@@ -30,6 +33,8 @@ public class Triangle extends Shape {
         gc.setStroke(color);
         gc.setLineWidth(3);
         gc.strokePolygon(xPoints, yPoints, 3);
+
+
     }
 
     @Override

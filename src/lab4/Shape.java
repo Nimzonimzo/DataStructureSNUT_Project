@@ -9,13 +9,15 @@ public abstract class Shape {
     private double x;
     private double y;
     private Color color;
-    private int shapeType; // 0=Cirkel, 1=Rectangle, 2=Triangle, 3=Line
+    private Color outlineColor;
+    private int shapeType; //0=Cirkel, 1=Rectangle, 2=Triangle, 3=Line
     private boolean selected = false;
 
     public Shape(double x, double y, Color color, int shapeType) {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.outlineColor = color;
         this.shapeType = shapeType;
     }
 
@@ -43,6 +45,8 @@ public abstract class Shape {
         return color;
     }
 
+    public abstract void drawYourself(GraphicsContext gc);
+
     public int getShapeType() {
         return shapeType;
     }
@@ -51,7 +55,6 @@ public abstract class Shape {
         this.shapeType = shapeType;
     }
 
-    public abstract void drawYourself(GraphicsContext gc);
 
     public abstract void setOutline(GraphicsContext gc, Color color);
 
@@ -59,31 +62,34 @@ public abstract class Shape {
         double deltaX = 0;
         double deltaY = 0;
 
-        // Ajuster la distance de déplacement en fonction de vos besoins
+        // Adjust the movement distance based on your requirements
         double movementSpeed = 20.0;
 
-        switch (event.getCode()) {
-            case RIGHT:
-                deltaX = movementSpeed;
-                System.out.println("Move to the right");
-                break;
-            case LEFT:
-                deltaX = -movementSpeed;
-                break;
-            case DOWN:
-                deltaY = movementSpeed;
-                break;
-            case UP:
-                deltaY = -movementSpeed;
-                break;
-            default:
-                break;
+        if (event.getCode() == KeyCode.RIGHT) {
+            deltaX = movementSpeed;
+            System.out.println("move to right");
+        } else if (event.getCode() == KeyCode.LEFT) {
+            deltaX = -movementSpeed;
+        } else if (event.getCode() == KeyCode.DOWN) {
+            deltaY = movementSpeed;
+        } else if (event.getCode() == KeyCode.UP) {
+            deltaY = -movementSpeed;
         }
 
-        // Mettre à jour la position de la forme
+
+        // Update the shape's position
         setX(getX() + deltaX);
         setY(getY() + deltaY);
     }
 
     public abstract Shape clone();
+
+    public Color getOutlineColor() {
+        return outlineColor;
+    }
+
+    public void setOutlineColor(Color outlineColor) {
+        this.outlineColor = outlineColor;
+    }
+
 }

@@ -9,20 +9,26 @@ public class Line extends Shape {
     private int height = 6;
 
     public Line(double x, double y, Color color, int shapeType) {
-        super(x, y, color, shapeType);
+        super(x, y, color, 1);
     }
 
     @Override
     public void drawYourself(GraphicsContext gc) {
         gc.setFill(getColor());
         gc.fillRect(getX() - width / 2, getY() - height / 2, width, height);
+
+        if (getColor() != getOutlineColor()) {
+            gc.setStroke(getOutlineColor());
+            gc.setLineWidth(2);
+            gc.strokeRect(getX()-width / 2, getY()-height / 2, width, height);
+        }
     }
 
     @Override
     public void setOutline(GraphicsContext gc, Color color) {
         gc.setStroke(color);
         gc.setLineWidth(2);
-        gc.strokeRect(getX() - width / 2, getY() - height / 2, width, height);
+        gc.strokeRect(getX()-width / 2, getY()-height / 2, width, height);
     }
 
     @Override
