@@ -1,5 +1,8 @@
 package lab4;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -21,14 +24,15 @@ public class DrawingPanel extends Pane {
 
 	public DrawingPanel(DrawingModel model) {
 		this.model = model;
-		this.canvas = new Canvas(1300, 900); // 500, 500
+		this.canvas = new Canvas(1300, 900); //500, 500
 		getChildren().add(canvas);
 
 		canvas.setFocusTraversable(true);
 
 		canvas.setOnKeyPressed(event -> {
-			double mouseX = canvas.getWidth() / 2;
-			double mouseY = canvas.getHeight() / 2;
+			Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+			double mouseX = mouseLocation.getX();
+			double mouseY = mouseLocation.getY();
 
 			Point2D canvasMouseLocation = canvas.sceneToLocal(mouseX, mouseY);
 			System.out.println(canvasMouseLocation);
@@ -62,6 +66,7 @@ public class DrawingPanel extends Pane {
 					// Move the selected shape backwards in the shapes list
 					moveShapeBackwards();
 				}
+
 			}
 		});
 
@@ -74,8 +79,14 @@ public class DrawingPanel extends Pane {
 			}
 
 			if (event.getButton() == MouseButton.PRIMARY) {
-				selectedShape = null;
-				generateShape(event.getX(), event.getY());
+				if (selectedShape != null) {
+					selectedShape.setOutlineColor(model.getColor());
+					selectedShape = null;
+					redrawCanvas();
+				} else {
+					generateShape(event.getX(), event.getY());
+				}
+
 			} else if (event.getButton() == MouseButton.SECONDARY) {
 				selectShape(event.getX(), event.getY());
 			}
@@ -98,6 +109,7 @@ public class DrawingPanel extends Pane {
 		hiText.setTranslateX(10);
 		hiText.setTranslateY(30);
 		getChildren().add(hiText);
+
 	}
 
 	private void redrawCanvas() {
@@ -148,3 +160,39 @@ public class DrawingPanel extends Pane {
 			Shape shape = new Line(x, y, model.getColor(), model.getShapeType());
 			GraphicsContext gc = canvas.getGraphicsContext2D();
 			model.addShape(shape);
+			shape.drawYourself(gc);
+		}
+	}
+
+	private void moveShapeForwards() {
+		if (selectedShape != null) {
+			int index = model.getShapes().indexOf(selectedShape);
+			if (index < model.getShapes().size() - 1) {
+				// Swap the selected shape with the shape after it
+				Shape temp = model.getShapes().get(index + 1);
+				model.getShapes().set(index + 1, selectedShape);
+				model.getShapes().set(index, temp);
+
+				// Redraw the canvas
+				redrawCanvas();
+			}
+		}
+	}
+
+	private void moveShapeBackwards() {
+		if (selectedShape != null) {
+			int index = model.getShapes().indexOf(selectedShape);
+			if (index > 0) {
+				// Swap the selected shape with the shape before it
+				Shape temp = model.getShapes().get(index - 1);
+				model.getShapes().set(index - 1, selectedShape);
+				model.getShapes().set(index, temp);
+
+				// Redraw the canvas
+				redrawCanvas();
+			}
+		}
+	}
+
+
+}

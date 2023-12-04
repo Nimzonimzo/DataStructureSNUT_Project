@@ -1,8 +1,8 @@
 package lab4;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -16,9 +16,10 @@ public class Main extends Application {
         DrawingModel model = new DrawingModel(sidePanel, shapePanel);
         DrawingPanel drawingPanel = new DrawingPanel(model);
 
-        HBox root = new HBox(shapePanel, drawingPanel, sidePanel);
 
-        primaryStage.setScene(new Scene(root, 800, 500)); // Ajusté la taille de la scène
+        HBox root = new HBox(drawingPanel,shapePanel , sidePanel);
+
+        primaryStage.setScene(new Scene(root, 500, 500));
         primaryStage.show();
     }
 

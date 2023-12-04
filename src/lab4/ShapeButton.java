@@ -1,76 +1,55 @@
 package lab4;
 
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Polygon;
 
-public class ShapeButton extends StackPane {
-	private int shape;
-	private boolean selected;
-	private Circle circle;
-	private Rectangle rectangle;
-	private Polygon triangle;
+public class ShapePanel extends VBox {
+	private ArrayList<ShapeButton> shapeButtons;
 
-	public ShapeButton(int shape, boolean selected, ShapePanel shapePanel) {
-		this.shape = shape;
-		this.selected = selected;
+	public ShapePanel() {
+		setPadding(new Insets(10));
+		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
-		setPadding(new Insets(8));
+		shapeButtons = new ArrayList<ShapeButton>();
+		shapeButtons.add(new ShapeButton(0, true, this));
+		shapeButtons.add(new ShapeButton(1, false, this));
+		shapeButtons.add(new ShapeButton(2, false, this));
+		shapeButtons.add(new ShapeButton(3, false, this));
 
-		// Making it so that a shape is selected in the beginning
-		updateBackground();
+		getChildren().addAll(shapeButtons);
+	}
 
-		setOnMouseClicked(event -> {
-			selected = true;
-			shapePanel.updateShapeButtons(this);
-			updateBackground();
-		});
+	public Region getCanvas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		// Here the shapes on the shape panel are drawn out
-		if (shape == 0) {
-			circle = new Circle(15, Color.BLACK);
-			getChildren().add(circle);
-		} else if (shape == 1) {
-			rectangle = new Rectangle(40, 20, Color.BLACK);
-			getChildren().add(rectangle);
-		} else if (shape == 2) {
-			triangle = new Polygon();
-			triangle.getPoints().addAll(
-					25.0, 5.0,   // x1, y1
-					5.0, 45.0,   // x2, y2
-					45.0, 45.0   // x3, y3
-			);
-			getChildren().add(triangle);
-		} else if (shape == 3) {
-			rectangle = new Rectangle(40, 3, Color.BLACK);
-			getChildren().add(rectangle);
+	public ArrayList<ShapeButton> getShapeButtons() {
+		return shapeButtons;
+	}
+
+	public void updateShapeButtons(ShapeButton selectedButton) {
+		for (ShapeButton button : shapeButtons) {
+			if (button == selectedButton) {
+				button.setSelected(true);
+			} else {
+				button.setSelected(false);
+			}
 		}
 	}
 
-	public boolean isSelected() {
-		return selected;
-	}
-
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-		updateBackground();
-	}
-
-	public int getCurrentShape() {
-		return shape;
-	}
-
-	private void updateBackground() {
-		if (selected) {
-			setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
-		} else {
-			setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(5), Insets.EMPTY)));
+	public int getSelectedShape() {
+		for (ShapeButton button : shapeButtons) {
+			if (button.isSelected()) {
+				return button.getCurrentShape();
+			}
 		}
+		return 0;
 	}
 }

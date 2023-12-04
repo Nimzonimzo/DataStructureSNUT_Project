@@ -15,6 +15,12 @@ public class Circle extends Shape {
 	public void drawYourself(GraphicsContext gc) {
 		gc.setFill(getColor());
 		gc.fillOval(getX() - radius, getY() - radius, radius * 2, radius * 2);
+
+		if (getColor() != getOutlineColor()) {
+			gc.setStroke(getOutlineColor());
+			gc.setLineWidth(3);
+			gc.strokeOval(getX()-radius, getY()-radius, radius * 2, radius * 2);
+		}
 	}
 
 	@Override
