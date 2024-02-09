@@ -1,6 +1,6 @@
 # Drawing Program
 
-School project aimed at creating an interactive drawing program with @oliviabrofors & @Turizten
+School project (SeoulTech) aimed at creating an interactive drawing program with @oliviabrofors & @Turizten
 
 ## Overview
 This program provides a graphical interface for drawing and manipulating various geometric shapes. It includes features such as selection, movement, copy-paste, color change, and the ability to reorder shapes backward and forward.
